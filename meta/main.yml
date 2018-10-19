@@ -2,6 +2,7 @@
 # Role dependencies
 
 galaxy_info:
+  role_name: proxy_client
   author: Juan Antonio Valiño García
   description: Setup proxy client environment variables
   company: AMTEGA - Xunta de Galicia
