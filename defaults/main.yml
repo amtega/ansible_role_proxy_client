@@ -1,2 +1,9 @@
 ---
-# Role default lower priority variables
+# Internet proxy for http and https
+
+proxy_client_http_proxy: "{{ ansible_facts.env.http_proxy | default('') }}"
+proxy_client_https_proxy: "{{ ansible_facts.env.https_proxy | default('') }}"
+
+# List with domains/IPs to bypass previous proxy settings
+
+proxy_client_no_proxy: "{{ ansible_facts.env.no_proxy | default('') }}"

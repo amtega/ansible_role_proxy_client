@@ -1,2 +1,63 @@
 ---
+
 # Tasks for testing role
+
+- name: run idempotence test
+  hosts: localhost
+  roles:
+    - role: amtega.docker_presets
+      docker_presets_images_json_query: >-
+        [? starts_with(name, `centos-6`)
+           || starts_with(name, `centos-7`)
+           || starts_with(name, `fedora-27`)
+           || starts_with(name, `fedora-28`) ]
+
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: started
+      docker_sandbox_idempotence_test: false
+  tags:
+    - sandbox
+
+- name: test proxy_client role
+  hosts: docker_sandbox_containers
+  vars:
+    proxy_client_http_proxy: http://acme.local
+    proxy_client_https_proxy: https://acme.local
+    proxy_client_no_proxy:
+      - https://acme2.local
+  roles:
+    - amtega.proxy_client
+  tasks:
+    - name: get internet proxy environment variables
+      shell: >-
+        source /etc/environment ;
+        echo $http_proxy ;
+        echo $HTTP_PROXY ;
+        echo $https_proxy ;
+        echo $HTTPS_PROXY ;
+        echo $no_proxy ;
+        echo $NO_PROXY ;
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: get_proxy_variables_result
+
+    - name: verify internet proxy variables
+      assert:
+        that:
+          - get_proxy_variables_result.stdout_lines[0] == "http://acme.local"
+          - get_proxy_variables_result.stdout_lines[1] == "http://acme.local"
+          - get_proxy_variables_result.stdout_lines[2] == "https://acme.local"
+          - get_proxy_variables_result.stdout_lines[3] == "https://acme.local"
+          - get_proxy_variables_result.stdout_lines[4] == "https://acme2.local"
+          - get_proxy_variables_result.stdout_lines[5] == "https://acme2.local"
+  tags:
+    - idempotence
+
+- name: cleanup docker docker sandbox
+  hosts: localhost
+  roles:
+    - role: amtega.docker_sandbox
+      docker_sandbox_state: absent
+  tags:
+    - sandbox
