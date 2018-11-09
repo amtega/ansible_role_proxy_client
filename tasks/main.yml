@@ -1,15 +1,24 @@
 ---
 # Role tasks
 
-- name: assert platform is supported
-  assert:
-    that:
-      - distribution in proxy_client_supported_distributions
-      - >-
-        ansible_facts.distribution_version
-        is version(proxy_client_supported_versions[distribution], ">=")
+- name: setup fact with proxy environment
+  set_fact:
+    proxy_client_environment: >-
+      {{ http_config | combine(https_config) | combine(http_no_proxy) }}
   vars:
-    distribution: "{{ ansible_facts.distribution | lower }}"
+    http_config: >-
+      {{ (proxy_client_http_proxy | length > 0)
+         | ternary({ "http_proxy": proxy_client_http_proxy,
+                     "HTTP_PROXY": proxy_client_http_proxy }, {}) }}
+    https_config: >-
+      {{ (proxy_client_https_proxy | length > 0)
+         | ternary({ "https_proxy": proxy_client_https_proxy,
+                     "HTTPS_PROXY": proxy_client_https_proxy },
+                   {}) }}
+    http_no_proxy: >-
+      {{ (proxy_client_no_proxy | length > 0)
+         | ternary({ "no_proxy": proxy_client_no_proxy | join(','),
+                     "NO_PROXY": proxy_client_no_proxy | join(',')}, {}) }}
   tags:
     - role::proxy_client
     - role::proxy_client::check

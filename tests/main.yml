@@ -51,6 +51,16 @@
           - get_proxy_variables_result.stdout_lines[3] == "https://acme.local"
           - get_proxy_variables_result.stdout_lines[4] == "https://acme2.local"
           - get_proxy_variables_result.stdout_lines[5] == "https://acme2.local"
+
+    - name: verify proxy environment config fact
+      assert:
+        that:
+          - proxy_client_environment.http_proxy == "http://acme.local"
+          - proxy_client_environment.https_proxy == "https://acme.local"
+          - proxy_client_environment.no_proxy == "https://acme2.local"
+          - proxy_client_environment.HTTP_PROXY == "http://acme.local"
+          - proxy_client_environment.HTTPS_PROXY == "https://acme.local"
+          - proxy_client_environment.NO_PROXY == "https://acme2.local"
   tags:
     - idempotence
 
