@@ -10,9 +10,12 @@ This is an [Ansible](http://www.ansible.com) role which configures proxy client 
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
+The role setups the fact `proxy_client_environment` that contains a dictionary that you can pass directly to the `environment` keyword.
+
 ## Dependencies
 
-[amtega.environment](https://galaxy.ansible.com/amtega/environment)
+- [amtega.check_platform](https://galaxy.ansible.com/amtega/check_platform)
+- [amtega.environment](https://galaxy.ansible.com/amtega/environment)
 
 ## Usage
 
@@ -28,6 +31,12 @@ This is an example playbook:
       proxy_client_https_proxy: https://acme.local
       proxy_client_no_proxy:
         - https://acme2.local
+      proxy_client_permanent: false
+
+  tasks:
+    - name: a task that needs internet access
+      shell: /bin/true
+      environment: "{{ proxy_client_environment }}"
 ```
 
 ## Testing
