@@ -23,22 +23,14 @@ dependencies:
     environment_config:
       http_proxy: "{{ proxy_client_http_proxy }}"
       HTTP_PROXY: "{{ proxy_client_http_proxy }}"
-    when:
-      - proxy_client_permanent
-      - proxy_client_http_proxy | default('') | length > 0
-
-  - role: amtega.environment
-    environment_config:
       https_proxy: "{{ proxy_client_https_proxy }}"
       HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
-    when:
-      - proxy_client_permanent
-      - proxy_client_https_proxy | default('') | length > 0
-
-  - role: amtega.environment
-    environment_config:
-      no_proxy: "{{ proxy_client_no_proxy | join(',') }}"
-      NO_PROXY: "{{ proxy_client_no_proxy | join(',') }}"
-    when:
-      - proxy_client_permanent
-      - proxy_client_no_proxy | default('') | length > 0
+      no_proxy: >-
+        {{ proxy_client_no_proxy
+           | default("", boolean=true)
+           | join(',') }}
+      NO_PROXY: >-
+        {{ proxy_client_no_proxy
+           | default("", boolean=true)
+           | join(',') }}
+    when: proxy_client_permanent
