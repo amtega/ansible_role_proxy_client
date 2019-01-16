@@ -18,19 +18,4 @@ galaxy_info:
     - proxy
     - client
 
-dependencies:
-  - role: amtega.environment
-    environment_config:
-      http_proxy: "{{ proxy_client_http_proxy }}"
-      HTTP_PROXY: "{{ proxy_client_http_proxy }}"
-      https_proxy: "{{ proxy_client_https_proxy }}"
-      HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
-      no_proxy: >-
-        {{ proxy_client_no_proxy
-           | default("", boolean=true)
-           | join(',') }}
-      NO_PROXY: >-
-        {{ proxy_client_no_proxy
-           | default("", boolean=true)
-           | join(',') }}
-    when: proxy_client_permanent
+dependencies: []
