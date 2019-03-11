@@ -8,8 +8,6 @@
         environment_config:
           http_proxy: "{{ proxy_client_http_proxy }}"
           HTTP_PROXY: "{{ proxy_client_http_proxy }}"
-          https_proxy: "{{ proxy_client_https_proxy }}"
-          HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
           no_proxy: >-
             {{ proxy_client_no_proxy
                | default("", boolean=true)
@@ -20,10 +18,26 @@
                | join(',') }}
       when: proxy_client_permanent
 
-    - name: setup fact with proxy environment
+    - include_role:
+        name: amtega.environment
+      vars:
+        environment_config:
+          https_proxy: "{{ proxy_client_https_proxy }}"
+          HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
+      when:
+        - proxy_client_permanent
+        - ansible_facts.distribution | default("") | lower in ['centos', 'rhel']
+        - ansible_facts.distribution_version | default("") is version("7", ">=")
+
+    - name: Setup fact with proxy environment
       set_fact:
         proxy_client_environment: >-
-          {{ http_config | combine(https_config) | combine(http_no_proxy) }}
+          {{ http_config
+             | combine((ansible_facts.distribution | default("")
+                        | lower in ['centos', 'rhel']
+                        and ansible_facts.distribution_version | default("")
+                            is version("7", ">=")) | ternary(https_config, {}))
+             | combine(http_no_proxy) }}
       vars:
         http_config: >-
           {{ (proxy_client_http_proxy | default("", boolean=true) | length > 0)
