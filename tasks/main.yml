@@ -29,7 +29,7 @@
         - ansible_facts.distribution | default("") | lower in ['centos', 'rhel']
         - ansible_facts.distribution_version | default("") is version("7", ">=")
 
-    - name: setup fact with proxy environment
+    - name: Setup fact with proxy environment
       set_fact:
         proxy_client_environment: >-
           {{ http_config

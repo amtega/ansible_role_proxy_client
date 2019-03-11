@@ -2,7 +2,7 @@
 
 # Tasks for testing role
 
-- name: run idempotence test
+- name: Run idempotence test
   hosts: localhost
   roles:
     - role: amtega.docker_presets
@@ -18,7 +18,7 @@
   tags:
     - sandbox
 
-- name: test proxy_client role
+- name: Test proxy_client role
   hosts: docker_sandbox_containers
   vars:
     proxy_client_http_proxy: http://acme.local
@@ -28,7 +28,7 @@
   roles:
     - amtega.proxy_client
   tasks:
-    - name: get internet proxy environment variables
+    - name: Get internet proxy environment variables
       shell: >-
         source /etc/environment ;
         echo $http_proxy ;
@@ -40,7 +40,7 @@
       changed_when: false
       register: get_proxy_variables_result
 
-    - name: get internet https proxy environment variables
+    - name: Get internet https proxy environment variables
       shell: >-
         source /etc/environment ;
         echo $https_proxy ;
@@ -53,7 +53,7 @@
         - ansible_facts.distribution | lower in ['centos', 'rhel']
         - ansible_facts.distribution_version is version("7", ">=")
 
-    - name: verify internet proxy variables
+    - name: Verify internet proxy variables
       assert:
         that:
           - get_proxy_variables_result.stdout_lines[0] == "http://acme.local"
@@ -61,7 +61,7 @@
           - get_proxy_variables_result.stdout_lines[2] == "https://acme2.local"
           - get_proxy_variables_result.stdout_lines[3] == "https://acme2.local"
 
-    - name: verify internet https proxy variables
+    - name: Verify internet https proxy variables
       assert:
         that:
           - get_https_proxy_variables_result.stdout_lines[0] == "https://acme.local"
@@ -70,7 +70,7 @@
         - ansible_facts.distribution | lower in ['centos', 'rhel']
         - ansible_facts.distribution_version is version("7", ">=")
 
-    - name: verify proxy environment config fact
+    - name: Verify proxy environment config fact
       assert:
         that:
           - proxy_client_environment.http_proxy == "http://acme.local"
@@ -78,7 +78,7 @@
           - proxy_client_environment.HTTP_PROXY == "http://acme.local"
           - proxy_client_environment.NO_PROXY == "https://acme2.local"
 
-    - name: verify proxy https environment config fact
+    - name: Verify proxy https environment config fact
       assert:
         that:
           - proxy_client_environment.https_proxy == "https://acme.local"
@@ -89,7 +89,7 @@
   tags:
     - idempotence
 
-- name: cleanup docker docker sandbox
+- name: Cleanup docker docker sandbox
   hosts: localhost
   roles:
     - role: amtega.docker_sandbox
