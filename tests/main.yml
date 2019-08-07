@@ -9,8 +9,8 @@
       docker_presets_images_json_query: >-
         [? starts_with(name, `centos-6`)
            || starts_with(name, `centos-7`)
-           || starts_with(name, `fedora-27`)
-           || starts_with(name, `fedora-28`) ]
+           || starts_with(name, `fedora-29`)
+           || starts_with(name, `fedora-30`) ]
 
     - role: amtega.docker_sandbox
       docker_sandbox_state: started
@@ -64,8 +64,12 @@
     - name: Verify internet https proxy variables
       assert:
         that:
-          - get_https_proxy_variables_result.stdout_lines[0] == "https://acme.local"
-          - get_https_proxy_variables_result.stdout_lines[1] == "https://acme.local"
+          - >-
+            get_https_proxy_variables_result.stdout_lines[0]
+            == "https://acme.local"
+          - >-
+            get_https_proxy_variables_result.stdout_lines[1]
+            == "https://acme.local"
       when:
         - ansible_facts.distribution | lower in ['centos', 'rhel']
         - ansible_facts.distribution_version is version("7", ">=")
@@ -95,4 +99,5 @@
     - role: amtega.docker_sandbox
       docker_sandbox_state: absent
   tags:
+    - cleanup
     - sandbox
