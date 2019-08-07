@@ -2,20 +2,14 @@
 
 This is an [Ansible](http://www.ansible.com) role which configures proxy client environment variables.
 
-## Requirements
-
-[Ansible 2.7+](http://docs.ansible.com/ansible/latest/intro_installation.html)
-
 ## Variables
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
-The role setups the fact `proxy_client_environment` that contains a dictionary that you can pass directly to the `environment` keyword.
+The role setups the following facts:
 
-## Dependencies
+- `proxy_client_environment`: contains a dictionary that you can pass directly to the `environment` keyword.
 
-- [amtega.check_platform](https://galaxy.ansible.com/amtega/check_platform)
-- [amtega.environment](https://galaxy.ansible.com/amtega/environment)
 
 ## Usage
 
@@ -52,7 +46,7 @@ $ ansible-playbook main.yml
 
 ## License
 
-Copyright (C) 2018 AMTEGA - Xunta de Galicia
+Copyright (C) 2019 AMTEGA - Xunta de Galicia
 
 This role is free software: you can redistribute it and/or modify it under the terms of:
 
