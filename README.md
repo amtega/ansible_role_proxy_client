@@ -10,7 +10,6 @@ The role setups the following facts:
 
 - `proxy_client_environment`: contains a dictionary that you can pass directly to the `environment` keyword.
 
-
 ## Usage
 
 This is an example playbook:
