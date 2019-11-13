@@ -26,7 +26,9 @@
           HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
       when:
         - proxy_client_permanent | bool
-        - ansible_facts.distribution | default("") | lower in ['centos', 'rhel']
+        - >-
+          ansible_facts.distribution | default("") | lower
+          in ['centos', 'redhat']
         - ansible_facts.distribution_version | default("") is version("7", ">=")
 
     - name: Setup fact with proxy environment
@@ -34,7 +36,7 @@
         proxy_client_environment: >-
           {{ http_config
              | combine((ansible_facts.distribution | default("")
-                        | lower in ['centos', 'rhel']
+                        | lower in ['centos', 'redhat']
                         and ansible_facts.distribution_version | default("")
                             is version("7", ">=")) | ternary(https_config, {}))
              | combine(http_no_proxy) }}

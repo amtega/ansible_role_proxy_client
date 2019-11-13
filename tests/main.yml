@@ -50,7 +50,7 @@
       changed_when: false
       register: get_https_proxy_variables_result
       when:
-        - ansible_facts.distribution | lower in ['centos', 'rhel']
+        - ansible_facts.distribution | lower in ['centos', 'redhat']
         - ansible_facts.distribution_version is version("7", ">=")
 
     - name: Verify internet proxy variables
@@ -71,7 +71,7 @@
             get_https_proxy_variables_result.stdout_lines[1]
             == "https://acme.local"
       when:
-        - ansible_facts.distribution | lower in ['centos', 'rhel']
+        - ansible_facts.distribution | lower in ['centos', 'redhat']
         - ansible_facts.distribution_version is version("7", ">=")
 
     - name: Verify proxy environment config fact
@@ -88,7 +88,7 @@
           - proxy_client_environment.https_proxy == "https://acme.local"
           - proxy_client_environment.HTTPS_PROXY == "https://acme.local"
       when:
-        - ansible_facts.distribution | lower in ['centos', 'rhel']
+        - ansible_facts.distribution | lower in ['centos', 'redhat']
         - ansible_facts.distribution_version is version("7", ">=")
   tags:
     - idempotence
