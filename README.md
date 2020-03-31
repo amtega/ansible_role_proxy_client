@@ -27,7 +27,7 @@ This is an example playbook:
       proxy_client_permanent: false
 
   tasks:
-    - name: a task that needs internet access
+    - name: A task that needs internet access
       shell: /bin/true
       environment: "{{ proxy_client_environment }}"
 ```
