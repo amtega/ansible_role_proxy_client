@@ -1,0 +1,16 @@
+---
+
+- name: Converge
+  hosts: molecule_hosts
+  gather_facts: no
+  roles:
+    - amtega.proxy_client
+  tasks:
+    - pause:
+        seconds: 5
+
+- name: Converge replay
+  hosts: molecule_hosts
+  gather_facts: no
+  roles:
+    - amtega.proxy_client
