@@ -6,7 +6,8 @@
   roles:
     - amtega.proxy_client
   tasks:
-    - pause:
+    - name: Pause execution (next role execution must be fastest)
+      pause:
         seconds: 5
 
 - name: Converge replay
