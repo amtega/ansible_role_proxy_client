@@ -52,11 +52,12 @@ provisioner:
       callback_whitelist: profile_tasks
       action_plugins: $PWD/action_plugins
   inventory:
-    group_vars:
+    hosts:
       molecule_hosts:
-        proxy_client_http_proxy: http://acme.local
-        proxy_client_https_proxy: https://acme.local
-        proxy_client_no_proxy:
-          - https://acme2.local
+        vars:
+          proxy_client_http_proxy: http://acme.local
+          proxy_client_https_proxy: https://acme.local
+          proxy_client_no_proxy:
+            - https://acme2.local
 verifier:
   name: ansible
