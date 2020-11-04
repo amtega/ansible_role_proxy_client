@@ -4,7 +4,9 @@
 - block:
     - name: Gather facts
       setup:
-      when: ansible_facts.distribution is undefined
+      when:
+        - proxy_client_support_el_6 | bool
+        - ansible_facts.distribution is undefined
 
     - include_tasks: permanent.yml
       when: proxy_client_permanent | bool

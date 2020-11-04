@@ -16,3 +16,9 @@ proxy_client_no_proxy: >-
 # Make the proxy client config permanent in the system environment variables
 
 proxy_client_permanent: yes
+
+# Indicate if the role must support Enterprise Linux (RHEL/CentOS) 6. You can
+# set this value to `no` if you don't use these versions and you want to speed
+# up the role
+
+proxy_client_support_el_6: yes
