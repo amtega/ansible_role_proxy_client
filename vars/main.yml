@@ -23,15 +23,17 @@ proxy_client_http_no_proxy: >-
 
 proxy_client_environment_value: >-
   {{ proxy_client_http_config
-     | combine((ansible_facts.distribution | default("")
-                | lower in ['centos', 'redhat']
-                and ansible_facts.distribution_version | default("")
-                    is version("7", ">="))
+     | combine((not proxy_client_support_el_6 | bool
+                or (ansible_facts.distribution | default("")
+                    | lower in ['centos', 'fedora', 'redhat']
+                    and ansible_facts.distribution_version | default("")
+                        is version("7", ">=")))
                | ternary(proxy_client_https_config, {}))
      | combine(proxy_client_http_no_proxy) }}
 
 proxy_client_process_required: >-
-  {{ ansible_facts.distribution is undefined
+  {{ (ansible_facts.distribution is undefined
+      and proxy_client_support_el_6 | bool)
      or proxy_client_permanent != _proxy_client_permanent | default(None)
      or proxy_client_environment_value
         != proxy_client_environment | default(None) }}
