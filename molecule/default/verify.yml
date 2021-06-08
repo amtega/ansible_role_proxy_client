@@ -15,7 +15,7 @@
         echo $NO_PROXY ;
       args:
         executable: /bin/bash
-      changed_when: false
+      changed_when: no
       register: get_proxy_variables_result
 
     - name: Get internet https proxy environment variables
@@ -25,7 +25,7 @@
         echo $HTTPS_PROXY ;
       args:
         executable: /bin/bash
-      changed_when: false
+      changed_when: no
       register: get_https_proxy_variables_result
       when:
         - ansible_facts.distribution | lower in ['centos', 'redhat']

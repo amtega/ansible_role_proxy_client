@@ -2,7 +2,8 @@
 # Role setup tasks
 
 - block:
-    - include_role:
+    - name: Setup base environment variables
+      include_role:
         name: amtega.environment
       vars:
         environment_config:
@@ -17,7 +18,8 @@
                | default("", boolean=true)
                | join(',') }}
 
-    - include_role:
+    - name: Setup extra environment variables
+      include_role:
         name: amtega.environment
       vars:
         environment_config:
