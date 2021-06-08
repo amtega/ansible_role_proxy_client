@@ -14,6 +14,7 @@ lint: "${MOLECULE_SCENARIO_DIRECTORY}/linters.sh"
 platforms:
   - name: "centos6-${INSTANCE_UUID:-1}"
     image: centos:6
+    dockerfile: Dockerfile.centos6.j2
     groups:
       - molecule_hosts
   - name: "centos7-${INSTANCE_UUID:-1}"
@@ -38,7 +39,7 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      callback_whitelist: profile_tasks
+      callback_enabled: profile_tasks
       action_plugins: $PWD/action_plugins
   inventory:
     hosts:
