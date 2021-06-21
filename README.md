@@ -24,7 +24,7 @@ This is an example playbook:
       proxy_client_https_proxy: https://acme.local
       proxy_client_no_proxy:
         - https://acme2.local
-      proxy_client_permanent: false
+      proxy_client_permanent: no
 
   tasks:
     - name: A task that needs internet access
