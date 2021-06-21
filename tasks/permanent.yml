@@ -32,7 +32,7 @@
               and ansible_facts.distribution_version
                   | default("") is version("7", ">="))
   when:
-    - proxy_client_permanent | bool
+    - proxy_client_permanent_value | bool
     - >-
       proxy_client_http_proxy | length > 0
       or proxy_client_https_proxy | length > 0
