@@ -32,7 +32,8 @@ proxy_client_environment_value: >-
      | combine(proxy_client_http_no_proxy) }}
 
 proxy_client_permanent_value: >-
-  {{ hostvars[inventory_hostname].proxy_client_permanent }}
+  {{ hostvars[inventory_hostname].proxy_client_permanent
+     | default(proxy_client_permanent) }}
 
 proxy_client_process_required: >-
   {{ (ansible_facts.distribution is undefined
