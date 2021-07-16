@@ -17,6 +17,11 @@ proxy_client_no_proxy: >-
 
 proxy_client_permanent: yes
 
+# Indicate the that the host var proxy_client_permanent has priority over
+# vars passed to the role
+
+proxy_client_permanent_hostvar_priority: yes
+
 # Indicate if the role must support Enterprise Linux (RHEL/CentOS) 6. You can
 # set this value to `no` if you don't use these versions and you want to speed
 # up the role
