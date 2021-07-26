@@ -23,7 +23,7 @@ proxy_client_http_no_proxy: >-
 
 proxy_client_environment_value: >-
   {{ proxy_client_http_config
-     | combine((not proxy_client_support_el_6 | bool
+     | combine((proxy_client_support_el_6 | bool
                 or (ansible_facts.distribution | default("")
                     | lower in ['centos', 'fedora', 'redhat']
                     and ansible_facts.distribution_version | default("")
