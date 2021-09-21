@@ -28,7 +28,7 @@
       when: >-
           not proxy_client_support_el_6 | bool
           or (ansible_facts.distribution | default("") | lower
-              in ['centos', 'redhat']
+              in ["centos", "fedora", "redhat"]
               and ansible_facts.distribution_version
                   | default("") is version("7", ">="))
   when:
