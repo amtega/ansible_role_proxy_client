@@ -3,15 +3,15 @@
 # variables
 
 proxy_client_http_proxy: >-
-  {{ (ansible_facts.env | default({})).http_proxy | default('') }}
+  {{ (ansible_facts.env | default({})).http_proxy | default("") }}
 proxy_client_https_proxy: >-
-  {{ (ansible_facts.env | default({})).https_proxy | default('') }}
+  {{ (ansible_facts.env | default({})).https_proxy | default("") }}
 
 # List with domains/IPs to bypass previous proxy settings. The default is to
 # load environment variables
 
 proxy_client_no_proxy: >-
-  {{ (ansible_facts.env | default({})).no_proxy | default('') }}
+  {{ ((ansible_facts.env | default({})).no_proxy | default("")).split(",") }}
 
 # Make the proxy client config permanent in the system environment variables
 
