@@ -13,7 +13,7 @@ proxy_client_https_config: >-
                {}) }}
 
 proxy_client_http_no_proxy: >-
-  {{ (proxy_client_no_proxy | default("", boolean=true) | length > 0)
+  {{ (proxy_client_no_proxy | default([], boolean=true) | length > 0)
      | ternary({ "no_proxy": proxy_client_no_proxy
                              | default("", boolean=true)
                              | join(","),
