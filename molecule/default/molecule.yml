@@ -25,13 +25,13 @@ platforms:
     image: centos:8
     groups:
       - molecule_hosts
-  - name: "fedora33-${INSTANCE_UUID:-1}"
-    image: fedora:33
+  - name: "fedora34-${INSTANCE_UUID:-1}"
+    image: fedora:34
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-  - name: "fedora34-${INSTANCE_UUID:-1}"
-    image: fedora:34
+  - name: "fedora35-${INSTANCE_UUID:-1}"
+    image: fedora:35
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
@@ -39,7 +39,7 @@ provisioner:
   name: ansible
   config_options:
     defaults:
-      callback_enabled: profile_tasks
+      callbacks_enabled: profile_tasks
       action_plugins: $PWD/action_plugins
   inventory:
     hosts:
