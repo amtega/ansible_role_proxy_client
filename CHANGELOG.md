@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.5] - 2022-01-26
+### Changed
+- Updated readme
+- Improved tests
+
 ### [1.7.4] - 2021-11-15
 ### Fixed
 - Fixed bug when no_proxy is undefined.
