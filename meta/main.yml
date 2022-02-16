@@ -10,13 +10,25 @@ galaxy_info:
   license: GPLv3 or EUPL
   min_ansible_version: 2.10
   platforms:
-    - name: GenericLinux
+    - name: EL
       versions:
-        - all
+        - 6
+        - 7
+        - 8
+    - name: Fedora
+      versions:
+        - 34
+        - 35
   galaxy_tags:
     - system
     - http
     - proxy
     - client
 
-dependencies: []
+dependencies:
+  - role: amtega.check_platform
+    vars:
+      check_platform_distributions:
+        centos: 6
+        fedora: 34
+        redhat: 6
