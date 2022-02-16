@@ -24,10 +24,8 @@ proxy_client_http_no_proxy: >-
 proxy_client_environment_value: >-
   {{ proxy_client_http_config
      | combine((proxy_client_support_el_6 | bool
-                or (ansible_facts.distribution | default("")
-                    | lower in ['centos', 'fedora', 'redhat']
-                    and ansible_facts.distribution_version | default("")
-                        is version("7", ">=")))
+                or ansible_facts.distribution_version | default("")
+                   is version("7", ">="))
                | ternary(proxy_client_https_config, {}))
      | combine(proxy_client_http_no_proxy) }}
 
