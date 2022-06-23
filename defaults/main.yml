@@ -27,3 +27,7 @@ proxy_client_permanent_hostvars_priority: yes
 # up the role
 
 proxy_client_support_el_6: yes
+
+# Enable/disable role
+
+proxy_client_enabled: yes
