@@ -7,7 +7,7 @@
     - amtega.proxy_client
   tasks:
     - name: Get internet proxy environment variables
-      shell: >-
+      ansible.builtin.shell: >-
         source /etc/environment ;
         echo $http_proxy ;
         echo $HTTP_PROXY ;
@@ -19,7 +19,7 @@
       register: get_proxy_variables_result
 
     - name: Get internet https proxy environment variables
-      shell: >-
+      ansible.builtin.shell: >-
         source /etc/environment ;
         echo $https_proxy ;
         echo $HTTPS_PROXY ;
@@ -30,7 +30,7 @@
       when: ansible_facts.distribution_version is version("7", ">=")
 
     - name: Verify internet proxy variables
-      assert:
+      ansible.builtin.assert:
         that:
           - get_proxy_variables_result.stdout_lines[0] == "http://acme.local"
           - get_proxy_variables_result.stdout_lines[1] == "http://acme.local"
@@ -38,7 +38,7 @@
           - get_proxy_variables_result.stdout_lines[3] == "https://acme2.local"
 
     - name: Verify internet https proxy variables
-      assert:
+      ansible.builtin.assert:
         that:
           - >-
             get_https_proxy_variables_result.stdout_lines[0]
@@ -49,7 +49,7 @@
       when: ansible_facts.distribution_version is version("7", ">=")
 
     - name: Verify proxy environment config fact
-      assert:
+      ansible.builtin.assert:
         that:
           - proxy_client_environment.http_proxy == "http://acme.local"
           - proxy_client_environment.no_proxy == "https://acme2.local"
@@ -57,7 +57,7 @@
           - proxy_client_environment.NO_PROXY == "https://acme2.local"
 
     - name: Verify proxy https environment config fact
-      assert:
+      ansible.builtin.assert:
         that:
           - proxy_client_environment.https_proxy == "https://acme.local"
           - proxy_client_environment.HTTPS_PROXY == "https://acme.local"

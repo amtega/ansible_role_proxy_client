@@ -1,7 +1,17 @@
 ---
-# Role tasks
 
-- include_tasks: setup.yml
-  when: proxy_client_process_required | bool
+- name: Setup proxy client
+  block:
+    - name: Setup full proxy client configuration
+      ansible.builtin.include_tasks: setup.yml
+      when: 
+        - proxy_client_enabled | bool
+        - proxy_client_process_required | bool
+
+    - name: Setup proxy client placeholder
+      ansible.builtin.set_fact:
+        proxy_client_environment: {}
+        _proxy_client_permanent: {}
+      when: not proxy_client_enabled | bool
   tags:
     - role::proxy_client
