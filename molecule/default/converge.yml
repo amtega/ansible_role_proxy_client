@@ -7,7 +7,7 @@
     - amtega.proxy_client
   tasks:
     - name: Pause execution (next role execution must be fastest)
-      pause:
+      ansible.builtin.pause:
         seconds: 5
 
 - name: Converge replay

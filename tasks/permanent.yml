@@ -1,9 +1,9 @@
 ---
-# Role setup tasks
 
-- block:
+- name: Setup permanent proxy client
+  block:  
     - name: Setup base environment variables
-      include_role:
+      ansible.builtin.include_role:
         name: amtega.environment
       vars:
         environment_config:
@@ -19,7 +19,7 @@
                | join(',') }}
 
     - name: Setup extra environment variables
-      include_role:
+      ansible.builtin.include_role:
         name: amtega.environment
       vars:
         environment_config:
@@ -35,5 +35,7 @@
     - >-
       proxy_client_http_proxy | length > 0
       or proxy_client_https_proxy | length > 0
+  vars:
+    environment_skip_if_not_writeable: yes
   tags:
     - role::proxy_client
