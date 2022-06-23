@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2022-02-23
+### Added
+- Added proxy_client_enabled option. Related to ansible/playbooks/linux#100
+
+### Fixed
+- Coding standards.
+
 ## [1.8.0] - 2022-02-16
 ### Changed
 - Adapted for CentOS derived distros. Related to ansible/main#263
