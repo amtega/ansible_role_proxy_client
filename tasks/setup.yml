@@ -1,5 +1,4 @@
 ---
-# Role setup tasks
 
 - name: Setup proxy client
   block:
