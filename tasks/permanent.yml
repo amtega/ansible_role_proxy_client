@@ -1,7 +1,7 @@
 ---
 
 - name: Setup permanent proxy client
-  block:  
+  block:
     - name: Setup base environment variables
       ansible.builtin.include_role:
         name: amtega.environment
