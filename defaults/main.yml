@@ -28,6 +28,10 @@ proxy_client_permanent_hostvars_priority: yes
 
 proxy_client_support_el_6: yes
 
+# Allow role to gather facts if thinks that it's necessary
+
+proxy_client_gather_facts: yes
+
 # Enable/disable role
 
 proxy_client_enabled: yes
