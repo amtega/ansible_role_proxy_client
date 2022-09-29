@@ -5,10 +5,12 @@
     - name: Gather facts
       ansible.builtin.setup:
       when:
+        - proxy_client_gather_facts | bool
         - proxy_client_support_el_6 | bool
         - ansible_facts.os_family is undefined
 
-    - ansible.builtin.include_tasks: permanent.yml
+    - name: Setup permanent proxy settings
+      ansible.builtin.include_tasks: permanent.yml
       when: proxy_client_permanent_value | bool
 
     - name: Setup facts with proxy environment

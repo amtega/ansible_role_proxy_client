@@ -17,6 +17,7 @@ platforms:
     dockerfile: Dockerfile.centos6.j2
     groups:
       - molecule_hosts
+      - molecule_hosts_centos_6
   - name: "centos7-${INSTANCE_UUID:-1}"
     image: quay.io/centos/centos:centos7
     groups:
@@ -49,5 +50,9 @@ provisioner:
           proxy_client_https_proxy: https://acme.local
           proxy_client_no_proxy:
             - https://acme2.local
+      molecule_hosts_centos_6:
+        vars:
+          python_build_install_dir: /opt/python
+          ansible_python_interpreter: /opt/python/bin/python3
 verifier:
   name: ansible
