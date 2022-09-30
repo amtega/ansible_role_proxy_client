@@ -18,24 +18,24 @@ platforms:
     groups:
       - molecule_hosts
       - molecule_hosts_centos_6
-  - name: "centos7-${INSTANCE_UUID:-1}"
-    image: quay.io/centos/centos:centos7
-    groups:
-      - molecule_hosts
-  - name: "centos8-${INSTANCE_UUID:-1}"
-    image: quay.io/centos/centos:stream8
-    groups:
-      - molecule_hosts
-  - name: "fedora34-${INSTANCE_UUID:-1}"
-    image: quay.io/fedora/fedora:34
-    groups:
-      - molecule_hosts
-      - molecule_hosts_fedora
-  - name: "fedora35-${INSTANCE_UUID:-1}"
-    image: quay.io/fedora/fedora:35
-    groups:
-      - molecule_hosts
-      - molecule_hosts_fedora
+  # - name: "centos7-${INSTANCE_UUID:-1}"
+  #   image: quay.io/centos/centos:centos7
+  #   groups:
+  #     - molecule_hosts
+  # - name: "centos8-${INSTANCE_UUID:-1}"
+  #   image: quay.io/centos/centos:stream8
+  #   groups:
+  #     - molecule_hosts
+  # - name: "fedora34-${INSTANCE_UUID:-1}"
+  #   image: quay.io/fedora/fedora:34
+  #   groups:
+  #     - molecule_hosts
+  #     - molecule_hosts_fedora
+  # - name: "fedora35-${INSTANCE_UUID:-1}"
+  #   image: quay.io/fedora/fedora:35
+  #   groups:
+  #     - molecule_hosts
+  #     - molecule_hosts_fedora
 provisioner:
   name: ansible
   config_options:
@@ -52,7 +52,6 @@ provisioner:
             - https://acme2.local
       molecule_hosts_centos_6:
         vars:
-          python_build_install_dir: /opt/python
-          ansible_python_interpreter: /opt/python/bin/python3
+          python_set_ansible_interpreter: yes
 verifier:
   name: ansible
