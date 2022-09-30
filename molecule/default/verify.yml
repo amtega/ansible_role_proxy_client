@@ -5,6 +5,7 @@
   gather_facts: yes
   roles:
     - amtega.proxy_client
+    - amtega.python
   tasks:
     - name: Get internet proxy environment variables
       ansible.builtin.shell: >-
