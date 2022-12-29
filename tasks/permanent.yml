@@ -2,40 +2,15 @@
 
 - name: Setup permanent proxy client
   block:
-    - name: Setup base environment variables
+    - name: Setup permanent proxy client environment
       ansible.builtin.include_role:
         name: amtega.environment
       vars:
-        environment_config:
-          http_proxy: "{{ proxy_client_http_proxy }}"
-          HTTP_PROXY: "{{ proxy_client_http_proxy }}"
-          no_proxy: >-
-            {{ proxy_client_no_proxy
-               | default("", boolean=true)
-               | join(',') }}
-          NO_PROXY: >-
-            {{ proxy_client_no_proxy
-               | default("", boolean=true)
-               | join(',') }}
+        environment_config: "{{ _proxy_client_environment_value }}"
+        environment_skip_if_not_writeable: yes
 
-    - name: Setup extra environment variables
-      ansible.builtin.include_role:
-        name: amtega.environment
-      vars:
-        environment_config:
-          https_proxy: "{{ proxy_client_https_proxy }}"
-          HTTPS_PROXY: "{{ proxy_client_https_proxy }}"
-      when: >-
-          not proxy_client_support_el_6 | bool
-          or (ansible_facts.os_family | default("") | lower == "redhat"
-              and ansible_facts.distribution_version
-                  | default("") is version("7", ">="))
-  when:
-    - proxy_client_permanent_value | bool
-    - >-
-      proxy_client_http_proxy | length > 0
-      or proxy_client_https_proxy | length > 0
-  vars:
-    environment_skip_if_not_writeable: yes
+    - name: Setup internal fact indicating that permanent proxy was configured
+      ansible.builtin.set_fact:
+        _proxy_client_permanent_configured: yes
   tags:
     - role::proxy_client
