@@ -28,7 +28,7 @@
       when:
         - proxy_client_enabled | bool
         - >-
-          _proxy_client_environment_value is undefined
+          proxy_client_environment is undefined
           or (_proxy_client_permanent_value | bool
               and not _proxy_client_permanent_configured
                       | default(false)
