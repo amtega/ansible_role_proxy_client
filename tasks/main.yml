@@ -2,16 +2,41 @@
 
 - name: Setup proxy client
   block:
-    - name: Setup full proxy client configuration
-      ansible.builtin.include_tasks: setup.yml
-      when: 
-        - proxy_client_enabled | bool
-        - proxy_client_process_required | bool
+    - name: Gather facts
+      ansible.builtin.setup:
+        gather_subset:
+          - distribution
+          - distribution_version
+          - env
+          - os_family
+      when: ansible_facts.distribution is not defined
 
-    - name: Setup proxy client placeholder
+    - name: Setup internal facts
+      ansible.builtin.include_tasks: facts.yml
+      when: _proxy_client_environment_value is undefined
+
+    - name: Gather if proxy client should be permanent
+      ansible.builtin.set_fact:
+        _proxy_client_permanent_value: >-
+          {{ (proxy_client_permanent_hostvars_priority | bool)
+            | ternary(hostvars[inventory_hostname].proxy_client_permanent
+                      | default(proxy_client_permanent),
+                      proxy_client_permanent) }}
+
+    - name: Setup proxy client configuration
+      ansible.builtin.include_tasks: setup.yml
+      when:
+        - proxy_client_enabled | bool
+        - >-
+          _proxy_client_environment_value is undefined
+          or (_proxy_client_permanent_value | bool
+              and not _proxy_client_permanent_configured
+                      | default(false)
+                      | bool)
+
+    - name: Setup proxy client configuration placeholder
       ansible.builtin.set_fact:
         proxy_client_environment: {}
-        _proxy_client_permanent: {}
       when: not proxy_client_enabled | bool
   tags:
     - role::proxy_client
